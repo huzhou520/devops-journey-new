@@ -1,0 +1,20 @@
+日期：2026-03-03
+
+今天进度：跳着看了第二周视频前半部分（微服务示例 + 配置、健康检查）
+
+动手做了什么：
+- 写了最简 Deployment yaml（nginx:alpine，replicas=1）
+- 加了 readinessProbe（path: /healthz，initialDelaySeconds: 5）
+- kubectl port-forward 跑通了 curl localhost:8080，看到响应
+
+卡点/问题：probe path 写错导致 NotReady，kubectl describe 看到事件后改回 /healthz 解决
+
+今天新增知识点：
+- readinessProbe 失败不会重启容器，只是不接收流量
+- livenessProbe 失败才会重启（默认重启策略）
+
+GitHub 更新：commit 到 devops-journey/week-02-basics，链接：https://github.com/你的用户名/devops-journey/commit/xxxx
+
+AI 使用亮点：用 Cursor 生成 probe yaml 模板，prompt：“写一个带 readinessProbe 的 Nginx Deployment”
+
+手感打分：今天 6 分（比昨天顺手一点了）
