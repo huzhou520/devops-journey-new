@@ -1,4 +1,4 @@
-![image-20260304195701282](/Users/tao/Library/Application Support/typora-user-images/image-20260304195701282.png)
+![image-20260304195701282](/Users/tao/devops/devops-journey-new/my-practice/images/SCR-20260304-rknt.png)
 
 多阶段构建
 
