@@ -1,7 +1,13 @@
+# Terraform / Terragrunt 缓存和本地文件（永不提交）
 .terraform/
-.terraform.lock.hcl
+.terragrunt-cache/
 *.tfstate
 *.tfstate.backup
+.terraform.lock.hcl   # 可选，如果你不想提交 lock
+
+# 其他常见忽略
 __pycache__/
 *.pyc
-.DS_Store
+*.pyo
+*.log
+.DS_Store             # macOS 专用
