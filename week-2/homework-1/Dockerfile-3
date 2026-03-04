@@ -1,0 +1,11 @@
+# syntax=docker/dockerfile:1
+FROM golang:1.17 as builder
+WORKDIR /opt/app
+COPY . .
+RUN go mod init main && go build -o example
+
+
+FROM ubuntu:latest
+WORKDIR /opt/app
+COPY --from=builder /opt/app/example ./example
+CMD ["/opt/app/example"]

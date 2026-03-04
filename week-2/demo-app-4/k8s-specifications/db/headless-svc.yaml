@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-headless-svc
+spec:
+  type: ClusterIP
+  # K8s 无头服务，不需要负载均衡，不需要 clusterIP，并且可以通过 pod-name.svc-name.default.svc.cluster.local 来访问到特定的 Pod.
+  clusterIP: None
+  ports:
+    - name: postgresql
+      port: 5432
+      targetPort: postgresql
+      protocol: TCP
+  selector:
+    app: postgres
