@@ -24,6 +24,7 @@ rootfs 通过联合挂载（Union Mount）实现常见的技术有：
 主要是减小镜像的大小，一般在第一阶段编译生成想要的文件，然后把文件拷贝到第二阶段里；
 因为第一阶段镜像有很多的编译工具等等，通过多阶段也能减少不安全的因素；
 参考案例文件 my-practice/week-02/demo-1/fakehostname
+
 ```
 # 构建两个镜像
 docker build -f Dockerfile -t demo:v1 .
@@ -33,4 +34,4 @@ docker build -f Dockerfile2 -t demo:v2 .
 docker images | grep demo
 ```
 结果
-![alt text](images/多阶段构建结果.png)
+![alt text](.images/多阶段构建结果.png)
