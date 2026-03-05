@@ -62,3 +62,4 @@ $ ps aux
 $ hostname
 $ exit
 ```
+![alt text](../images/runc启动.png)
