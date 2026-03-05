@@ -1,0 +1,11 @@
+# 构建阶段
+FROM golang:1.17 AS builder
+WORKDIR /opt/app
+COPY . .
+RUN go mod init main && go build -o example
+
+# 运行阶段
+FROM ubuntu:latest
+WORKDIR /opt/app
+COPY --from=builder /opt/app/example .
+CMD ["/opt/app/example"]
