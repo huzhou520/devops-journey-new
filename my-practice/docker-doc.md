@@ -32,3 +32,5 @@ docker build -f Dockerfile2 -t demo:v2 .
 # 查看镜像大小
 docker images | grep demo
 ```
+结果
+![alt text](images/多阶段构建结果.png)
