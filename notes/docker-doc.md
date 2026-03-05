@@ -34,4 +34,31 @@ docker build -f Dockerfile2 -t demo:v2 .
 docker images | grep demo
 ```
 结果
-![alt text](.images/多阶段构建结果.png)
+![alt text](../images/多阶段构建结果.png)
+
+### buildx进行多架构构建
+1.先登录仓库，比如登陆到dockerhub，docker login
+2.进入到Dockerfile目录构建，比如 my-practice/week-02/demo-1/fakehostname
+  docker buildx build --platform linux/amd64,linux/arm64 -t huzhouht520/multi-arch-test:v1 --push
+3.仓库上的生成结果
+![alt text](../images/多架构生成结果-dockerhub.png)
+
+### runc启动容器测试
+```
+runc负责启动一个容器，属于底层的实现，docker、containerd、cri-o它们启动容器都是通过调用runc来实现，它们只是做上层的生命周期的管理；
+```
+1.先启动一个腾讯云主机，通过terraform
+进入这个目录：teacher-ref/week-2
+terraform init
+terraform apply auto-approve
+2.进入到cvm虚拟机的/tmp目录
+cd /tmp
+```
+$ ls rootfs # 提前准备好的 busybox rootfs
+$ runc spec # 生成一个 config.json 样例
+$ cat config.json
+$ sudo runc run my-container # 通过 runc 直接启动容器
+$ ps aux
+$ hostname
+$ exit
+```
