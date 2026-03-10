@@ -63,3 +63,5 @@ $ hostname
 $ exit
 ```
 ![alt text](../images/runc启动.png)
+
+#docker #多阶段构建 #buildx #runc #容器底层

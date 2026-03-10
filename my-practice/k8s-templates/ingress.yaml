@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+  # 若使用 nginx-ingress，可添加注解，例如：
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx  # 按集群实际 Ingress Controller 修改
+  rules:
+    - host: my-app.example.com  # 修改为实际域名或删除 host 使用默认
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: my-app
+                port:
+                  number: 80

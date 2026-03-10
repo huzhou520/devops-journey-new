@@ -1,0 +1,67 @@
+# 有服务依赖时的 Deployment 模板
+# 依赖方（如 api、worker）需等待被依赖方（如 db、redis）就绪后再启动
+#
+# 两种常见做法：
+# 1. initContainer + k8s-wait-for：等待依赖 Pod/Service 就绪后再启动主容器
+# 2. env 注入依赖地址：通过 K8s DNS 访问，格式为 <service>.<namespace>.svc.cluster.local
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      # 方式一：initContainer 等待依赖就绪（需集群有 RBAC 允许 default SA 读 pods/services）
+      initContainers:
+        # 等待 db 服务的 Pod 就绪
+        - name: wait-for-db
+          image: ghcr.io/groundnuty/k8s-wait-for:v2.0
+          args: ["pod", "-lapp=db"]
+        # 若有多个依赖，可继续添加
+        # - name: wait-for-redis
+        #   image: ghcr.io/groundnuty/k8s-wait-for:v2.0
+        #   args: ["pod", "-lapp=redis"]
+        # 也可等待 Service：args: ["service", "db"]
+      containers:
+        - name: my-app
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+              name: http
+          # 方式二：通过 env 注入依赖地址（K8s 集群内 DNS 自动解析）
+          env:
+            - name: DB_HOST
+              value: "db"  # 同 namespace 可简写；跨 namespace 用 db.other-ns.svc.cluster.local
+            - name: DB_PORT
+              value: "5432"
+            # - name: REDIS_HOST
+            #   value: "redis"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
