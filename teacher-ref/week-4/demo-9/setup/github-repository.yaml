@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: yamltoinfra
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  url: https://github.com/devops-advanced-camp/code.git
+  password: "" # your github personal access token
+  username: lyzhang1999
+  insecure: "true"
+  forceHttpBasicAuth: "true"
+  enableLfs: "true"

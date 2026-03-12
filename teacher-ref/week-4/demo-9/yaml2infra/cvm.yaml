@@ -1,0 +1,16 @@
+apiVersion: cvm.tencentcloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  name: example-cvm
+spec:
+  forProvider:
+    instanceName: "test-crossplane-cvm"
+    availabilityZone: "ap-hongkong-2"
+    instanceChargeType: "SPOTPAID"
+    imageId: "img-487zeit5"
+    instanceType: "S5.MEDIUM2"
+    systemDiskType: "CLOUD_PREMIUM"
+    vpcidRef:
+      name: "example-cvm-vpc"
+    subnetIdRef:
+      name: "example-cvm-subnet"
